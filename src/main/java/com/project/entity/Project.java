@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class Project {
 	@Id
     @Column(name = "Project_Id")
-	int projectId;
+	long projectId;
 	 @Column(name = "Project")
 	String project;
 	 @Column(name = "Start_Date")
@@ -21,11 +21,19 @@ public class Project {
 	Date endDate;
 	 @Column(name = "Priority")
 	int priority;
+	@Column(name = "Status")
+	String status;
 
-	public int getProjectId() {
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public long getProjectId() {
 		return projectId;
 	}
-	public void setProjectId(int projectId) {
+	public void setProjectId(long projectId) {
 		this.projectId = projectId;
 	}
 	public String getProject() {
@@ -51,5 +59,30 @@ public class Project {
 	}
 	public void setPriority(int priority) {
 		this.priority = priority;
+	}
+	@Override
+	public String toString() {
+		return "Project [projectId=" + projectId + ", project=" + project + ", startDate=" + startDate + ", endDate="
+				+ endDate + ", priority=" + priority + ", status=" + status + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (projectId ^ (projectId >>> 32));
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Project other = (Project) obj;
+		if (projectId != other.projectId)
+			return false;
+		return true;
 	}
 }

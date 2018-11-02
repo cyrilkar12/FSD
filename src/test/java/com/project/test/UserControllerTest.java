@@ -7,8 +7,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
@@ -16,15 +14,12 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized.UseParametersRunnerFactory;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContextManager;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,7 +28,6 @@ import org.springframework.test.web.servlet.RequestBuilder;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.project.WebApplication;
 import com.project.entity.User;
 import com.project.service.UserService;
@@ -75,7 +69,7 @@ public class UserControllerTest {
     	user1.setEmployeeId(357494);
     	
     	User user2 = new User();
-    	user2.setUserId(1);
+    	user2.setUserId(2);
     	user2.setFirstName("cyril2");
     	user2.setLastName("kumar2");
     	user2.setEmployeeId(3574942);
@@ -171,7 +165,7 @@ public class UserControllerTest {
     
     
     @Test
-    @junitparams.Parameters(source= TestData.class, method = "provideEditUsers")
+    @junitparams.Parameters(source= TestData.class, method = "provideAddUsers")
     public void testDeleteUser(User deleteUser) throws Exception{
     	//lstUsers.add(editUser);
     	lstUsers.remove(deleteUser);
