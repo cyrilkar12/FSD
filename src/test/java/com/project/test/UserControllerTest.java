@@ -77,7 +77,7 @@ public class UserControllerTest {
     }
     
     @Test
-    @junitparams.Parameters(source= TestData.class, method = "provideUsers")
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideUsers")
     public void testlistAllUsers(List<User> expectedLstuser) throws Exception{
     	System.out.println(expectedLstuser);
     	
@@ -102,7 +102,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @junitparams.Parameters(source= TestData.class, method = "provideAddUsers")
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideAddUsers")
     public void testAddUser(User addedUser) throws Exception{
     	lstUsers.add(addedUser);
     	BDDMockito.given(userService.addUser(addedUser)).willReturn(lstUsers);
@@ -132,7 +132,7 @@ public class UserControllerTest {
 
 
     @Test
-    @junitparams.Parameters(source= TestData.class, method = "provideEditUsers")
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideEditUsers")
     public void testEditUser(User editUser,String expectedUserName) throws Exception{
     	//lstUsers.add(editUser);
     	lstUsers.add(editUser);
@@ -165,7 +165,7 @@ public class UserControllerTest {
     
     
     @Test
-    @junitparams.Parameters(source= TestData.class, method = "provideAddUsers")
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideAddUsers")
     public void testDeleteUser(User deleteUser) throws Exception{
     	//lstUsers.add(editUser);
     	lstUsers.remove(deleteUser);
@@ -193,7 +193,7 @@ public class UserControllerTest {
     
     
     @Test
-    @junitparams.Parameters(source= TestData.class, method = "provideUsersForSort")
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideUsersForSort")
     public void testSortAllUsers(List<User> expectedLstuser,int sortType) throws Exception{
     	System.out.println(expectedLstuser);
     	

@@ -62,7 +62,7 @@ List<User> lstUsers= new ArrayList<>();
     }
 	
 	@Test
-    @junitparams.Parameters(source= TestData.class, method = "provideAddUsers")
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideAddUsers")
 	public void testAddUser(User adduser) {
 		Mockito.when(userRepository.save(adduser))
 	      .thenReturn(adduser);
@@ -79,7 +79,7 @@ List<User> lstUsers= new ArrayList<>();
 	}
 	
 	@Test
-    @junitparams.Parameters(source= TestData.class, method = "provideDelUsers")
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideDelUsers")
 	public void testDeleteUser(long userId) {
 		Mockito.when(userRepository.findAll())
 	      .thenReturn(lstUsers);
@@ -99,7 +99,7 @@ List<User> lstUsers= new ArrayList<>();
 	}
 	
 	@Test
-    @junitparams.Parameters(source= TestData.class, method = "provideEditUsers")
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideEditUsers")
 	public void testEditUser(User edituser,String expectedEditUserName) {
 		Mockito.when(userRepository.save(edituser))
 	      .thenReturn(edituser);
@@ -120,7 +120,7 @@ List<User> lstUsers= new ArrayList<>();
 
 
 	@Test
-    @junitparams.Parameters(source= TestData.class, method = "provideUsers")
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideUsers")
 	public void testviewUsers(List<User> expectedLstUser) {
 		Mockito.when(userRepository.findAll())
 	      .thenReturn(lstUsers);
@@ -133,7 +133,7 @@ List<User> lstUsers= new ArrayList<>();
 	}
 	
 	@Test
-    @junitparams.Parameters(source= TestData.class, method = "provideUsersForSort")
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideUsersForSort")
 	public void testSortUsers(List<User> expectedLstUser,int sortType) {
 		Mockito.when(userRepository.findAllByOrderByFirstNameAsc())
 	      .thenReturn(lstUsers);

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.project.entity.User;
 
-public class TestData {
+public class TestDataUser {
 	
 	public static Object[] provideUsers() {
 		User user1 = new User();
