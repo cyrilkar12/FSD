@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.project.dao.UserDao;
@@ -20,6 +18,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> addUser(User user) {
+		System.out.println(">>>>service"+user);
 		userDao.save(user);
 		return viewUsers();
 	}
@@ -61,6 +60,16 @@ public class UserServiceImpl implements UserService {
 		
 		lstItr.forEach(lstUsers::add);
 		return lstUsers;
+	}
+	
+	@Override
+	public List<User> searchUserByName(String lastName){
+		Iterable<User> lstItr = null;
+		List<User> lstUsers = new ArrayList<>();
+		lstItr = userDao.findByLastNameContainingIgnoreCase(lastName);
+		lstItr.forEach(lstUsers::add);
+		return lstUsers;
+		
 	}
 
 	

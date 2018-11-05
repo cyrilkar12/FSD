@@ -2,6 +2,8 @@ package com.project.springcontrollers;
 
 import java.util.List;
 
+import javax.ws.rs.QueryParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +27,8 @@ public class UserRestController {
 	@RequestMapping(value = "/addUser",
 			method = RequestMethod.POST,produces = "application/json")
 	 @ResponseStatus(HttpStatus.CREATED)
-	@ResponseBody
-	public List<User> addUser(@RequestBody User user){
+	public @ResponseBody List<User> addUser(@RequestBody User user){
+		System.out.println(">>>>"+user);
 		return userService.addUser(user);
 	}
 	
@@ -47,8 +49,7 @@ public class UserRestController {
 	@RequestMapping(value = "/viewUsers",
 			method = RequestMethod.GET,produces = "application/json")
 	 @ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	public List<User> viewUsers() {
+	public @ResponseBody List<User> viewUsers() {
 		return userService.viewUsers();
 	}
 	
@@ -58,6 +59,14 @@ public class UserRestController {
 	@ResponseBody
 	public List<User> sortUsers(@PathVariable("sorttype") long sortType) {
 		return userService.sortUsers(sortType);
+	}
+
+	@RequestMapping(value = "/searchUser",
+			method = RequestMethod.GET,produces = "application/json")
+	 @ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public List<User> searchUserByName(@QueryParam("userName") String userName) {
+		return userService.searchUserByName(userName);
 	}
 
 }

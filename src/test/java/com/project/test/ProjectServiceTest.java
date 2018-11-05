@@ -54,7 +54,7 @@ List<Project> lstProjects= new ArrayList<>();
     	project1.setProjectId(111);
     	project1.setStartDate(new Date());
     	project1.setProject("COMS1");
-    	project1.setStatus("Completed");
+    //	project1.setStatus("Completed");
     	lstProjects.add(project1);
     	Project project2 = new Project();
     	project2.setEndDate(new Date());
@@ -62,7 +62,7 @@ List<Project> lstProjects= new ArrayList<>();
     	project2.setProjectId(111);
     	project2.setProject("COMS2");
     	project2.setStartDate(new Date());
-    	project2.setStatus("Completed");
+    //	project2.setStatus("Completed");
     	lstProjects.add(project2);
     }
 	

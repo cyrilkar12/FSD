@@ -1,11 +1,17 @@
 package com.project.entity;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="Project")
@@ -21,16 +27,23 @@ public class Project {
 	Date endDate;
 	 @Column(name = "Priority")
 	int priority;
-	@Column(name = "Status")
+/*	@Column(name = "Status")
 	String status;
-
-	public String getStatus() {
+*/	@JsonIgnore
+	@OneToMany(mappedBy="project")
+	private Set<Task> taskSet;
+	@Transient
+    int numberOfTasks;
+	@Transient
+    int completedTasks;
+    
+/*	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public long getProjectId() {
+*/	public long getProjectId() {
 		return projectId;
 	}
 	public void setProjectId(long projectId) {
@@ -60,10 +73,28 @@ public class Project {
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
+	public int getNumberOfTasks() {
+		return numberOfTasks;
+	}
+	public void setNumberOfTasks(int numberOfTasks) {
+		this.numberOfTasks = numberOfTasks;
+	}
+	public int getCompletedTasks() {
+		return completedTasks;
+	}
+	public void setCompletedTasks(int completedTasks) {
+		this.completedTasks = completedTasks;
+	}
+	public Set<Task> getTaskSet() {
+		return taskSet;
+	}
+	public void setTaskSet(Set<Task> taskSet) {
+		this.taskSet = taskSet;
+	}
 	@Override
 	public String toString() {
 		return "Project [projectId=" + projectId + ", project=" + project + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", priority=" + priority + ", status=" + status + "]";
+				+ endDate + ", priority=" + priority + "]";
 	}
 	@Override
 	public int hashCode() {

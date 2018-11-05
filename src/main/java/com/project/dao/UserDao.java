@@ -12,4 +12,5 @@ public interface UserDao<P> extends CrudRepository<User,Long>  {
 	public List<User> findAllByOrderByLastNameAsc();
 	public List<User> findAllByOrderByEmployeeIdAsc();
 	public List<User> findAllByOrderByFirstNameAsc();
+	public List<User> findByLastNameContainingIgnoreCase(String lastName);
 }

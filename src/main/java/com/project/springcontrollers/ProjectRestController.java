@@ -2,6 +2,8 @@ package com.project.springcontrollers;
 
 import java.util.List;
 
+import javax.ws.rs.QueryParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //import com.exception.ResourceNotFoundException;
 import com.project.entity.Project;
+import com.project.entity.User;
 import com.project.service.ProjectService;
 
 @RestController
@@ -49,7 +52,12 @@ public class ProjectRestController {
 	 @ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public List<Project> viewProjects() {
+		try {
 		return projectService.viewProjects();
+		}catch(Exception e) {
+			e.getMessage();
+		}
+		return null;
 	}
 	
 	@RequestMapping(value = "/sortProjects/{sorttype}",
@@ -59,5 +67,14 @@ public class ProjectRestController {
 	public List<Project> sortProjects(@PathVariable("sorttype") long sortType) {
 		return projectService.sortProjects(sortType);
 	}
+	
+	@RequestMapping(value = "/searchProject",
+			method = RequestMethod.GET,produces = "application/json")
+	 @ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public List<Project> searchUserByName(@QueryParam("projectName") String projectName) {
+		return projectService.searchProjectByName(projectName);
+	}
+
 
 }

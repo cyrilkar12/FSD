@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.dao.ProjectDao;
 import com.project.entity.Project;
+import com.project.entity.User;
 import com.project.service.ProjectService;
 
 @Service
@@ -36,9 +37,13 @@ public class  ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> viewProjects() {
-		Iterable<Project> lstItr = projectDao.findAll();
 		List<Project> lstProjects = new ArrayList<>();
+		try {
+		Iterable<Project> lstItr = projectDao.finaAllProjectsWithTaskCount();
 		lstItr.forEach(lstProjects::add);
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 		return lstProjects;
 	}
 
@@ -61,5 +66,14 @@ public class  ProjectServiceImpl implements ProjectService {
 		return lstProjects;
 	}
 
+	@Override
+	public List<Project> searchProjectByName(String Project) {
+		Iterable<Project> lstItr = null;
+		List<Project> lsProjects = new ArrayList<>();
+		lstItr = projectDao.findByProjectContainingIgnoreCase(Project);
+		lstItr.forEach(lsProjects::add);
+		return lsProjects;
+		
+	}
 	
 }

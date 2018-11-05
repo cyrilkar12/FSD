@@ -10,5 +10,6 @@ public interface ProjectService {
 	public List<Project> editProject(long projectId,Project project);
 	public List<Project> viewProjects();
 	public List<Project> sortProjects(long sortType);
+	public List<Project> searchProjectByName(String projectName);
 
 }
