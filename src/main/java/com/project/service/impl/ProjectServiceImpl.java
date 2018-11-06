@@ -39,9 +39,10 @@ public class  ProjectServiceImpl implements ProjectService {
 	public List<Project> viewProjects() {
 		List<Project> lstProjects = new ArrayList<>();
 		try {
-		Iterable<Project> lstItr = projectDao.finaAllProjectsWithTaskCount();
+		Iterable<Project> lstItr = projectDao.findAll();
 		lstItr.forEach(lstProjects::add);
 		}catch(Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 		return lstProjects;
@@ -58,6 +59,8 @@ public class  ProjectServiceImpl implements ProjectService {
 			lstItr = projectDao.findAllByOrderByEndDateAsc();
 		}else if(sortType ==3) {
 			lstItr = projectDao.findAllByOrderByPriorityAsc();
+		}else if(sortType ==4) {
+			lstItr = projectDao.findAllByOrderByCompletedTasksAsc();
 		}else {
 			lstItr = projectDao.findAllByOrderByStartDateAsc();
 		}

@@ -10,9 +10,29 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Formula;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-
+/*@SqlResultSetMapping(
+	    name = "findAllDataMapping",
+	    classes = @ConstructorResult(
+	            targetClass = Project.class,
+	            columns = {
+	                    @ColumnResult(name = "userFirstName"),
+	                    @ColumnResult(name = "userLastName"),
+	                    @ColumnResult(name = "id"),
+	                    @ColumnResult(name = "packageName")
+	            }
+	    )
+	)
+@NamedNativeQuery(name = "findAllDataMapping", resultClass = Project.class, resultSetMapping ="findAllDataMapping", query = "select p.project_id,p.Project,p.start_date,p.end_date,p.priority,count(distinct t.task_id) as numberOfTasks, \\n\" + \n" + 
+		"			\"(select count(distinct t.task_id) from test.task where project_id=p.project_id and status='Completed') as completedTasks \\n\" + \n" + 
+		"			\" from test.project p inner join test.task t \\n\" + \n" + 
+		"			\"on p.project_id=t.project_id group by p.project_id,p.Project,p.start_date,p.end_date,p.priority")
+*/
 @Entity
 @Table(name="Project")
 public class Project {
@@ -32,9 +52,15 @@ public class Project {
 */	@JsonIgnore
 	@OneToMany(mappedBy="project")
 	private Set<Task> taskSet;
-	@Transient
+    /*@JsonProperty
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient*/
+	@Formula("(select count(distinct t.task_id) from test.task t where t.project_id=project_id)")
     int numberOfTasks;
-	@Transient
+/*	@JsonProperty 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient*/
+	@Formula("(select count(distinct t.task_id) from test.task t where t.project_id=project_id and t.status='Completed')")
     int completedTasks;
     
 /*	public String getStatus() {
@@ -94,7 +120,8 @@ public class Project {
 	@Override
 	public String toString() {
 		return "Project [projectId=" + projectId + ", project=" + project + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", priority=" + priority + "]";
+				+ endDate + ", priority=" + priority + ", numberOfTasks=" + numberOfTasks
+				+ ", completedTasks=" + completedTasks + "]";
 	}
 	@Override
 	public int hashCode() {

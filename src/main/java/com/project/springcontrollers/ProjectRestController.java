@@ -53,6 +53,7 @@ public class ProjectRestController {
 	@ResponseBody
 	public List<Project> viewProjects() {
 		try {
+			System.out.println( "InView projects123213>>>"+ projectService.viewProjects());
 		return projectService.viewProjects();
 		}catch(Exception e) {
 			e.getMessage();
