@@ -3,18 +3,23 @@ package com.project.entity;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Formula;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /*@SqlResultSetMapping(
 	    name = "findAllDataMapping",
@@ -38,6 +43,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Project {
 	@Id
     @Column(name = "Project_Id")
+	@GeneratedValue(strategy = GenerationType.AUTO) 
 	long projectId;
 	 @Column(name = "Project")
 	String project;
@@ -49,9 +55,9 @@ public class Project {
 	int priority;
 /*	@Column(name = "Status")
 	String status;
-*/	@JsonIgnore
+	@JsonIgnore
 	@OneToMany(mappedBy="project")
-	private Set<Task> taskSet;
+	private Set<Task> taskSet;*/
     /*@JsonProperty
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Transient*/
@@ -62,7 +68,12 @@ public class Project {
 	@Transient*/
 	@Formula("(select count(distinct t.task_id) from test.task t where t.project_id=project_id and t.status='Completed')")
     int completedTasks;
-    
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "project")
+	//@OneToOne
+	//@JoinColumn(name="Project_Id",nullable=false,insertable=false,updatable=true)
+	@JsonManagedReference
+    User user;
+	
 /*	public String getStatus() {
 		return status;
 	}
@@ -111,17 +122,17 @@ public class Project {
 	public void setCompletedTasks(int completedTasks) {
 		this.completedTasks = completedTasks;
 	}
-	public Set<Task> getTaskSet() {
-		return taskSet;
+	public User getUser() {
+		return user;
 	}
-	public void setTaskSet(Set<Task> taskSet) {
-		this.taskSet = taskSet;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	@Override
 	public String toString() {
 		return "Project [projectId=" + projectId + ", project=" + project + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", priority=" + priority + ", numberOfTasks=" + numberOfTasks
-				+ ", completedTasks=" + completedTasks + "]";
+				+ endDate + ", priority=" + priority + ", numberOfTasks=" + numberOfTasks + ", completedTasks="
+				+ completedTasks + "]";
 	}
 	@Override
 	public int hashCode() {

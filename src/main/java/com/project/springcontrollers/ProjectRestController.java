@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 //import com.exception.ResourceNotFoundException;
 import com.project.entity.Project;
-import com.project.entity.User;
 import com.project.service.ProjectService;
 
 @RestController

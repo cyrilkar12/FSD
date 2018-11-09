@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.dao.ProjectDao;
+import com.project.dao.UserDao;
 import com.project.entity.Project;
 import com.project.entity.User;
 import com.project.service.ProjectService;
@@ -17,9 +18,15 @@ public class  ProjectServiceImpl implements ProjectService {
 	@Autowired
 	ProjectDao<Project> projectDao;
 
+	@Autowired
+	UserDao<User> userDao;
+
 	@Override
 	public List<Project> addProject(Project project) {
-		projectDao.save(project);
+		Project savedProject = projectDao.save(project);
+		User user  = project.getUser();
+		user.setProject(savedProject);
+		userDao.save(user);
 		return viewProjects();
 	}
 

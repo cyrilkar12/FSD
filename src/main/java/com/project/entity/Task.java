@@ -4,16 +4,22 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="Task")
 public class Task {
 	@Id
 	@Column(name = "Task_Id")
+	@GeneratedValue(strategy = GenerationType.AUTO) 
 	long taskId;
 	@ManyToOne
 	@JoinColumn(name="Parent_Id")
@@ -31,6 +37,12 @@ public class Task {
 	int priority;
 	@Column(name="Status")
 	String status;
+	@OneToOne
+	@JoinColumn(name="Task_Id",nullable=true,insertable=false,updatable=false)
+	@JsonBackReference
+    User user;
+
+	
 	public long getTaskId() {
 		return taskId;
 	}
@@ -78,6 +90,12 @@ public class Task {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	@Override
 	public String toString() {

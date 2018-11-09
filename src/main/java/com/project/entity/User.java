@@ -4,12 +4,17 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="Users")
@@ -25,11 +30,14 @@ public class User {
 	String lastName;
 	@Column(name = "Employee_Id")
 	int employeeId;
+	@OneToOne
+	@JoinColumn(name="Project_Id",nullable=false,insertable=false,updatable=true)
+	//@OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
+	@JsonBackReference
+	Project project;
 	@OneToMany
-	@JoinColumn(name="Project_Id")
-	Set<Project> project;
-	@OneToMany
-	@JoinColumn(name="Task_Id")
+	@JoinColumn(name="Task_Id",nullable=false,insertable=false,updatable=true)
+	@JsonManagedReference
 	Set<Task> tasks;
 	public long getUserId() {
 		return userId;
@@ -55,10 +63,10 @@ public class User {
 	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
 	}
-	public Set<Project> getProject() {
+	public Project getProject() {
 		return project;
 	}
-	public void setProject(Set<Project> project) {
+	public void setProject(Project project) {
 		this.project = project;
 	}
 	public Set<Task> getTasks() {
@@ -92,7 +100,7 @@ public class Authority {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", EmployeeId="
-				+ employeeId + ", project=" + project + ", tasks=" + tasks + "]";
+				+ employeeId + "]";
 	}
 	
 	@Override
