@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.action.internal.OrphanRemovalAction;
 import org.hibernate.annotations.Formula;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -54,10 +55,11 @@ public class Project {
 	 @Column(name = "Priority")
 	int priority;
 /*	@Column(name = "Status")
-	String status;
-	@JsonIgnore
-	@OneToMany(mappedBy="project")
-	private Set<Task> taskSet;*/
+	String status;*/
+	@OneToMany(cascade= {CascadeType.ALL} ,fetch = FetchType.EAGER, mappedBy="project")
+//	 @OneToMany(cascade= {CascadeType.REMOVE})
+     @JsonIgnore
+	private Set<Task> taskSet;
     /*@JsonProperty
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Transient*/
@@ -68,10 +70,10 @@ public class Project {
 	@Transient*/
 	@Formula("(select count(distinct t.task_id) from test.task t where t.project_id=project_id and t.status='Completed')")
     int completedTasks;
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "project")
-	//@OneToOne
-	//@JoinColumn(name="Project_Id",nullable=false,insertable=false,updatable=true)
-	@JsonManagedReference
+	@OneToOne(cascade= {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH} ,fetch = FetchType.EAGER, mappedBy = "project")
+	//@JoinColumn(name="Project_Id",nullable=true,insertable=false,updatable=true)
+	//@OneToOne(cascade= {CascadeType.ALL},fetch = FetchType.EAGER)
+//	@JsonManagedReference
     User user;
 	
 /*	public String getStatus() {
@@ -127,6 +129,12 @@ public class Project {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public Set<Task> getTaskSet() {
+		return taskSet;
+	}
+	public void setTaskSet(Set<Task> taskSet) {
+		this.taskSet = taskSet;
 	}
 	@Override
 	public String toString() {

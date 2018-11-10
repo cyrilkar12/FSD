@@ -2,13 +2,16 @@ package com.project.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.dao.ProjectDao;
+import com.project.dao.TaskDao;
 import com.project.dao.UserDao;
 import com.project.entity.Project;
+import com.project.entity.Task;
 import com.project.entity.User;
 import com.project.service.ProjectService;
 
@@ -20,25 +23,45 @@ public class  ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	UserDao<User> userDao;
+	
+	@Autowired
+	TaskDao<Task> taskDao;
 
 	@Override
 	public List<Project> addProject(Project project) {
-		Project savedProject = projectDao.save(project);
 		User user  = project.getUser();
+		project.setUser(null);
+		//project.setTaskSet(null);
+		Project savedProject = projectDao.save(project);
 		user.setProject(savedProject);
+		user.setTasks(null);
+		System.out.println(user);
 		userDao.save(user);
 		return viewProjects();
 	}
 
 	@Override
 	public List<Project> deleteProject(long projectId) {
+		Project project = projectDao.findOne(projectId);
+		User user = project.getUser();
+		if(user!=null) {
+		user.setProject(null);
+		userDao.save(user);
+		}
+		Set<Task> taskSet = project.getTaskSet();
+		taskDao.delete(taskSet);
 		projectDao.delete(projectId);
 		return viewProjects();
 	}
 
 	@Override
 	public List<Project> editProject(long projectId, Project project) {
+		System.out.println("Edit project>>"+project.getUser());
 		projectDao.save(project);
+		User user = project.getUser();
+		user.setProject(project);
+		userDao.save(user);
+		//project.
 		return viewProjects();
 	}
 

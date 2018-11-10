@@ -25,7 +25,7 @@ public class Task {
 	@JoinColumn(name="Parent_Id")
 	ParentTask parentTask;
 	@ManyToOne
-	@JoinColumn(name="Project_Id")
+	@JoinColumn(name="Project_Id",nullable=false,insertable=false,updatable=false)
 	Project project;
 	@Column(name="Task")
 	String task;
@@ -39,7 +39,7 @@ public class Task {
 	String status;
 	@OneToOne
 	@JoinColumn(name="Task_Id",nullable=true,insertable=false,updatable=false)
-	@JsonBackReference
+//	@JsonBackReference
     User user;
 
 	

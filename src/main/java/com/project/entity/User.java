@@ -2,6 +2,7 @@ package com.project.entity;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -21,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "User_Id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	long userId;
 	@Column(name = "First_Name")
 	String firstName;
@@ -30,14 +32,17 @@ public class User {
 	String lastName;
 	@Column(name = "Employee_Id")
 	int employeeId;
+	//@JoinColumn(name="Project_Id",nullable=true,insertable=false,updatable=false)
 	@OneToOne
-	@JoinColumn(name="Project_Id",nullable=false,insertable=false,updatable=true)
-	//@OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
-	@JsonBackReference
+	//@OneToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
+	@JoinColumn(name="Project_Id",nullable=true,insertable=false,updatable=true)
+	@JsonIgnore
+	//@JsonBackReference
 	Project project;
 	@OneToMany
-	@JoinColumn(name="Task_Id",nullable=false,insertable=false,updatable=true)
-	@JsonManagedReference
+	@JoinColumn(name="Task_Id",nullable=true,insertable=false,updatable=false)
+	@JsonIgnore
+	//@JsonManagedReference
 	Set<Task> tasks;
 	public long getUserId() {
 		return userId;
