@@ -68,18 +68,18 @@ public class TestDataTask {
     	task1.setPriority(40);
     	task1.setTaskId(111);
     	task1.setStartDate(new Date());
-    	task1.setTask("COMS");
+    	task1.setTaskName("COMS");
     	task1.setStatus("Completed");
     	Task task2 = new Task();
     	task2.setEndDate(new Date());
     	task2.setPriority(90);
-    	task2.setTask("TIM");
+    	task2.setTaskName("TIM");
     	task2.setTaskId(222);
     	task2.setStartDate(new Date());
     	task2.setStatus("Inprogress");
 
 		return (new Object[][]{
-				{task1,task1.getTask()},{task2,task2.getTask()}
+				{task1,task1.getTaskName()},{task2,task2.getTaskName()}
 		}
 				);
 	}

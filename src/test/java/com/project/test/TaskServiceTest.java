@@ -52,14 +52,14 @@ List<Task> lstTasks= new ArrayList<>();
     	task1.setPriority(40);
     	task1.setTaskId(111);
     	task1.setStartDate(new Date());
-    	task1.setTask("COMS1");
+    	task1.setTaskName("COMS1");
     	task1.setStatus("Completed");
     	lstTasks.add(task1);
     	Task task2 = new Task();
     	task2.setEndDate(new Date());
     	task2.setPriority(40);
     	task2.setTaskId(111);
-    	task2.setTask("COMS2");
+    	task2.setTaskName("COMS2");
     	task2.setStartDate(new Date());
     	task2.setStatus("Completed");
     	lstTasks.add(task2);
@@ -114,7 +114,7 @@ List<Task> lstTasks= new ArrayList<>();
 		boolean lstSucccess = true;
 		String actulEditTaskName= null;
 		if(!lstTasks.contains(edittask)) {
-			actulEditTaskName = lstTasks.get(lstTasks.indexOf(edittask)).getTask();
+			actulEditTaskName = lstTasks.get(lstTasks.indexOf(edittask)).getTaskName();
 			lstSucccess = false;
 		}
 		assertTrue("Task add Failed", lstSucccess);

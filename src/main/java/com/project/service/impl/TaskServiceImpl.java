@@ -1,7 +1,9 @@
 package com.project.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +25,20 @@ public class  TaskServiceImpl implements TaskService {
 	
 	@Override
 	public List<Task> addTask(Task task) {
+		/*ParentTask parentTask = task.getParentTask();
+		List<Task> taskLst = taskDao.findByParentTaskId(parentTask.getparentTaskId());
+		Set<Task> taskSet = new HashSet<>();
+		taskSet.addAll(taskLst);
+		taskSet.add(task);
+		parentTask.setTaskSet(taskSet);
+		task.setParentTask(parentTask);*/
 		taskDao.save(task);
 		return viewTasks();
 	}
 
-	public List<Task> addParentTask(ParentTask parentTask){
+	public List<ParentTask> addParentTask(ParentTask parentTask){
 		parentTaskDao.save(parentTask);
-		return viewTasks();
+		return viewParentTasks();
 	}
 	/*@Override
 	public List<Task> deleteTask(long taskId) {
@@ -82,7 +91,7 @@ public class  TaskServiceImpl implements TaskService {
 	public List<Task> searchTaskByName(String taskName){
 		Iterable<Task> lstItr = null;
 		List<Task> lstTasks = new ArrayList<>();
-		lstItr = taskDao.findByTaskContainingIgnoreCase(taskName);
+		lstItr = taskDao.findByTaskNameContainingIgnoreCase(taskName);
 		lstItr.forEach(lstTasks::add);
 		return lstTasks;
 	}

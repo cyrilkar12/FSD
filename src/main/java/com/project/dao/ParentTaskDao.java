@@ -10,4 +10,5 @@ import com.project.entity.Task;
 
 @Repository
 public interface ParentTaskDao<P> extends CrudRepository<ParentTask,Long> {
+	public List<ParentTask> findByParentTaskId(long parentTaskId);
 }

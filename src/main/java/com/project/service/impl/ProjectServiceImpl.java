@@ -34,7 +34,7 @@ public class  ProjectServiceImpl implements ProjectService {
 		//project.setTaskSet(null);
 		Project savedProject = projectDao.save(project);
 		user.setProject(savedProject);
-		user.setTasks(null);
+		//user.setTasks(null);
 		System.out.println(user);
 		userDao.save(user);
 		return viewProjects();

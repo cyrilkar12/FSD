@@ -68,14 +68,14 @@ public class TaskControllerTest {
 		task1.setPriority(40);
 		task1.setTaskId(111);
 		task1.setStartDate(new Date());
-		task1.setTask("COMS1");
+		task1.setTaskName("COMS1");
 		task1.setStatus("Completed");
 		lstTasks.add(task1);
 		Task task2 = new Task();
 		task2.setEndDate(new Date());
 		task2.setPriority(40);
 		task2.setTaskId(222);
-		task2.setTask("COMS2");
+		task2.setTaskName("COMS2");
 		task2.setStartDate(new Date());
 		task2.setStatus("Completed");
 		lstTasks.add(task2);

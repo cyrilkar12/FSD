@@ -36,7 +36,7 @@ public class TaskRestController {
 			method = RequestMethod.POST,produces = "application/json")
 	 @ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public List<Task> addParentTask(@RequestBody ParentTask parentTask){
+	public List<ParentTask> addParentTask(@RequestBody ParentTask parentTask){
 		return taskService.addParentTask(parentTask);
 	}
 	

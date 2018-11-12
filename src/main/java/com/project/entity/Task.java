@@ -9,10 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="Task")
@@ -22,13 +19,13 @@ public class Task {
 	@GeneratedValue(strategy = GenerationType.AUTO) 
 	long taskId;
 	@ManyToOne
-	@JoinColumn(name="Parent_Id")
+	@JoinColumn(name="Parent_Id",nullable=true,insertable=true,updatable=true)
 	ParentTask parentTask;
 	@ManyToOne
-	@JoinColumn(name="Project_Id",nullable=false,insertable=false,updatable=false)
+	@JoinColumn(name="Project_Id",nullable=false,insertable=true,updatable=true)
 	Project project;
 	@Column(name="Task")
-	String task;
+	String taskName;
 	@Column(name="Start_Date")
 	Date startDate;
 	@Column(name="End_Date")
@@ -37,10 +34,10 @@ public class Task {
 	int priority;
 	@Column(name="Status")
 	String status;
-	@OneToOne
+	/*@ManyToOne
 	@JoinColumn(name="Task_Id",nullable=true,insertable=false,updatable=false)
 //	@JsonBackReference
-    User user;
+    User user;*/
 
 	
 	public long getTaskId() {
@@ -61,11 +58,11 @@ public class Task {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-	public String getTask() {
-		return task;
+	public String getTaskName() {
+		return taskName;
 	}
-	public void setTask(String task) {
-		this.task = task;
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 	}
 	public Date getStartDate() {
 		return startDate;
@@ -91,15 +88,15 @@ public class Task {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public User getUser() {
+	/*public User getUser() {
 		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
+	}*/
 	@Override
 	public String toString() {
-		return "Task [taskId=" + taskId + ", parentTask=" + parentTask + ", project=" + project + ", task=" + task
+		return "Task [taskId=" + taskId + ", parentTask=" + parentTask + ", project=" + project + ", taskName=" + taskName
 				+ ", startDate=" + startDate + ", endDate=" + endDate + ", priority=" + priority + ", status=" + status
 				+ "]";
 	}

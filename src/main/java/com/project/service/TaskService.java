@@ -13,7 +13,7 @@ public interface TaskService {
 	public List<Task> viewTasks();
 	public List<ParentTask> viewParentTasks();
 	public List<Task> sortTasks(long sortType);
-	public List<Task> addParentTask(ParentTask parentTask);
+	public List<ParentTask> addParentTask(ParentTask parentTask);
 	public List<Task> searchTaskByName(String taskName);
 
 }
