@@ -2,14 +2,20 @@ package com.project.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="Task")
@@ -34,10 +40,9 @@ public class Task {
 	int priority;
 	@Column(name="Status")
 	String status;
-	/*@ManyToOne
-	@JoinColumn(name="Task_Id",nullable=true,insertable=false,updatable=false)
-//	@JsonBackReference
-    User user;*/
+	@OneToOne(fetch = FetchType.EAGER, mappedBy="task")
+	@JsonManagedReference
+    User user;
 
 	
 	public long getTaskId() {
@@ -88,12 +93,12 @@ public class Task {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	/*public User getUser() {
+	public User getUser() {
 		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}*/
+	}
 	@Override
 	public String toString() {
 		return "Task [taskId=" + taskId + ", parentTask=" + parentTask + ", project=" + project + ", taskName=" + taskName

@@ -82,8 +82,12 @@ public class TaskRestController {
 			method = RequestMethod.GET,produces = "application/json")
 	 @ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public List<Task> searchTask(@QueryParam("taskName") String taskName) {
-		return taskService.searchTaskByName(taskName);
+	public List<Task> searchTask(@QueryParam("taskName") String taskName,@QueryParam("projectId") long projectId) {
+		if(taskName!=null) {
+			return taskService.searchTaskByName(taskName);
+		}else {
+			return taskService.searchTaskByProjectId(projectId);
+		}
 	}
 
 }

@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.project.dao.ParentTaskDao;
 import com.project.dao.TaskDao;
+import com.project.dao.UserDao;
 import com.project.entity.ParentTask;
 import com.project.entity.Task;
+import com.project.entity.User;
 import com.project.service.TaskService;
 
 @Service
@@ -23,6 +25,9 @@ public class  TaskServiceImpl implements TaskService {
 	@Autowired
 	ParentTaskDao<ParentTask> parentTaskDao;
 	
+	@Autowired
+	UserDao<User> userDao;
+	
 	@Override
 	public List<Task> addTask(Task task) {
 		/*ParentTask parentTask = task.getParentTask();
@@ -32,7 +37,18 @@ public class  TaskServiceImpl implements TaskService {
 		taskSet.add(task);
 		parentTask.setTaskSet(taskSet);
 		task.setParentTask(parentTask);*/
-		taskDao.save(task);
+		User user = task.getUser();
+		task.setUser(null);
+		System.out.println("parent task>>>>>>>>>>>>>>>"+ task.getParentTask());
+		if(task.getParentTask().getParentTaskName()==null) {
+			task.setParentTask(null);
+		}
+		Task savedTask =taskDao.save(task);
+		user.setTask(savedTask);
+		System.out.println("user>>"+user);
+		System.out.println("task>>"+task);
+		userDao.save(user);
+		//task.getUser();
 		return viewTasks();
 	}
 
@@ -81,7 +97,7 @@ public class  TaskServiceImpl implements TaskService {
 		}else if(sortType ==3) {
 			lstItr = taskDao.findAllByOrderByPriorityAsc();
 		}else {
-			lstItr = taskDao.findAllByOrderByStartDateAsc();
+			lstItr = taskDao.findAllByOrderByStatusAsc();
 		}
 		
 		lstItr.forEach(lstTasks::add);
@@ -96,4 +112,11 @@ public class  TaskServiceImpl implements TaskService {
 		return lstTasks;
 	}
 	
+	public List<Task> searchTaskByProjectId(long projectId){
+		Iterable<Task> lstItr = null;
+		List<Task> lstTasks = new ArrayList<>();
+		lstItr = taskDao.findByProject(projectId);
+		lstItr.forEach(lstTasks::add);
+		return lstTasks;
+	}
 }

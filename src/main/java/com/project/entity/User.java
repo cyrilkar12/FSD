@@ -35,15 +35,15 @@ public class User {
 	//@JoinColumn(name="Project_Id",nullable=true,insertable=false,updatable=false)
 	@OneToOne
 	//@OneToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
-	@JoinColumn(name="Project_Id",nullable=true,insertable=false,updatable=true)
+	@JoinColumn(name="Project_Id",nullable=true,insertable=false,updatable=false)
 	@JsonIgnore
 	//@JsonBackReference
 	Project project;
-/*	@OneToMany(cascade= {CascadeType.ALL},fetch = FetchType.EAGER, mappedBy="user")
-	//@JoinColumn(name="Task_Id",nullable=true,insertable=false,updatable=false)
-	@JsonIgnore
-	//@JsonManagedReference
-	Set<Task> tasks;*/
+	@OneToOne
+	@JoinColumn(name="Task_Id",nullable=true,insertable=false,updatable=true)
+	//@JsonIgnore
+	@JsonBackReference
+	Task task;
 	public long getUserId() {
 		return userId;
 	}
@@ -74,12 +74,12 @@ public class User {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-/*	public Set<Task> getTasks() {
-		return tasks;
+	public Task getTask() {
+		return task;
 	}
-	public void setTasks(Set<Task> tasks) {
-		this.tasks = tasks;
-	}*/
+	public void setTask(Task task) {
+		this.task = task;
+	}
 	
 	/*
 	 * public class Node {

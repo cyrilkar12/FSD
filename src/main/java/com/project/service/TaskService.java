@@ -15,5 +15,6 @@ public interface TaskService {
 	public List<Task> sortTasks(long sortType);
 	public List<ParentTask> addParentTask(ParentTask parentTask);
 	public List<Task> searchTaskByName(String taskName);
-
+	public List<Task> searchTaskByProjectId(long projectId);
+	
 }
