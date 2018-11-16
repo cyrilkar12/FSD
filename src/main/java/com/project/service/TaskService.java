@@ -16,5 +16,6 @@ public interface TaskService {
 	public List<ParentTask> addParentTask(ParentTask parentTask);
 	public List<Task> searchTaskByName(String taskName);
 	public List<Task> searchTaskByProjectId(long projectId);
+	public Task searchTaskByTaskId(long taskId);
 	
 }

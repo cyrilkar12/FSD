@@ -35,7 +35,7 @@ public class User {
 	//@JoinColumn(name="Project_Id",nullable=true,insertable=false,updatable=false)
 	@OneToOne
 	//@OneToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
-	@JoinColumn(name="Project_Id",nullable=true,insertable=false,updatable=false)
+	@JoinColumn(name="Project_Id",nullable=true,insertable=false,updatable=true)
 	@JsonIgnore
 	//@JsonBackReference
 	Project project;

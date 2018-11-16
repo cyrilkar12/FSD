@@ -119,4 +119,8 @@ public class  TaskServiceImpl implements TaskService {
 		lstItr.forEach(lstTasks::add);
 		return lstTasks;
 	}
+	
+	public Task searchTaskByTaskId(long taskId){
+		return taskDao.findOne(taskId);
+	}
 }
