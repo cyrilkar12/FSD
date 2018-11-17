@@ -17,29 +17,34 @@ import org.springframework.web.bind.annotation.RestController;
 //import com.exception.ResourceNotFoundException;
 import com.project.entity.User;
 import com.project.service.UserService;
+import com.project.util.FSDContansts;
 
+/**
+ * @author 357494
+ *
+ */
 @RestController
 @RequestMapping("/user")
 public class UserRestController {
 	@Autowired
-	UserService userService;
+	private UserService userService;
+	
 	
 	@RequestMapping(value = "/addUser",
-			method = RequestMethod.POST,produces = "application/json")
+			method = RequestMethod.POST,produces = FSDContansts.APPLICATION_JSON)
 	 @ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody List<User> addUser(@RequestBody User user){
-		System.out.println(">>>>"+user);
 		return userService.addUser(user);
 	}
 	
-	@RequestMapping(value = "/deleteUser/{id}", method = RequestMethod.DELETE,produces = "application/json")
+	@RequestMapping(value = "/deleteUser/{id}", method = RequestMethod.DELETE,produces = FSDContansts.APPLICATION_JSON)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public List<User> deleteUser(@PathVariable("id") long userId){
 		return userService.deleteUser(userId);
 	}
 	
-	@RequestMapping(value = "/editUser/{id}", method = RequestMethod.PUT,produces = "application/json")
+	@RequestMapping(value = "/editUser/{id}", method = RequestMethod.PUT,produces = FSDContansts.APPLICATION_JSON)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public List<User> editUser(@PathVariable("id") long userId,@RequestBody User user) {
@@ -47,14 +52,14 @@ public class UserRestController {
 	}
 
 	@RequestMapping(value = "/viewUsers",
-			method = RequestMethod.GET,produces = "application/json")
+			method = RequestMethod.GET,produces = FSDContansts.APPLICATION_JSON)
 	 @ResponseStatus(HttpStatus.OK)
 	public @ResponseBody List<User> viewUsers() {
 		return userService.viewUsers();
 	}
 	
 	@RequestMapping(value = "/sortUsers/{sorttype}",
-			method = RequestMethod.GET,produces = "application/json")
+			method = RequestMethod.GET,produces = FSDContansts.APPLICATION_JSON)
 	 @ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public List<User> sortUsers(@PathVariable("sorttype") long sortType) {
@@ -62,7 +67,7 @@ public class UserRestController {
 	}
 
 	@RequestMapping(value = "/searchUser",
-			method = RequestMethod.GET,produces = "application/json")
+			method = RequestMethod.GET,produces = FSDContansts.APPLICATION_JSON)
 	 @ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public List<User> searchUserByName(@QueryParam("userName") String userName) {

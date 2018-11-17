@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import com.project.entity.Project;
+import com.project.entity.User;
 
+@SuppressWarnings("PMD")
 public class TestDataProject {
 	
 	public static Object[] provideProjects() {
@@ -32,17 +34,20 @@ public class TestDataProject {
 	}
 	
 	public static Object[] provideAddProjects() {
+		User user = new User();
 	   	Project project1 = new Project();
     	project1.setEndDate(new Date());
     	project1.setPriority(40);
     	project1.setProjectId(111);
     	project1.setStartDate(new Date());
+    	project1.setUser(user);
     	//project1.setStatus("Completed");
     	Project project2 = new Project();
     	project2.setEndDate(new Date());
     	project2.setPriority(90);
     	project2.setProjectId(222);
     	project2.setStartDate(new Date());
+    	project2.setUser(user);
     	//project2.setStatus("Inprogress");
 
 		return (new Object[]{
@@ -63,12 +68,14 @@ public class TestDataProject {
 
 	
 	public static Object[] provideEditProjects() {
+		User user = new User();
 	   	Project project1 = new Project();
     	project1.setEndDate(new Date());
     	project1.setPriority(40);
     	project1.setProjectId(111);
     	project1.setStartDate(new Date());
     	project1.setProject("COMS");
+    	project1.setUser(user);
     	//project1.setStatus("Completed");
     	Project project2 = new Project();
     	project2.setEndDate(new Date());
@@ -77,7 +84,7 @@ public class TestDataProject {
     	project2.setProjectId(222);
     	project2.setStartDate(new Date());
     	//project2.setStatus("Inprogress");
-
+       	project2.setUser(user);
 		return (new Object[][]{
 				{project1,project1.getProject()},{project2,project2.getProject()}
 		}
@@ -108,5 +115,29 @@ public class TestDataProject {
 				);
 	}
 
+	
+	public static Object[] provideProjectsForSearch() {
+	   	Project project1 = new Project();
+    	project1.setEndDate(new Date());
+    	project1.setPriority(40);
+    	project1.setProjectId(111);
+    	project1.setStartDate(new Date());
+    	List<Project> projectList = new ArrayList<>();
+		projectList.add(project1);
+    	//project1.setStatus("Completed");
+    	Project project2 = new Project();
+    	project2.setEndDate(new Date());
+    	project2.setPriority(90);
+    	project2.setProjectId(222);
+    	project2.setStartDate(new Date());
+    	//project2.setStatus("Inprogress");
+
+		List<Project> projectList1 = new ArrayList<>();
+		projectList1.add(project2);
+		return (new Object[][]{
+				{projectList,project1.getProject()},{projectList,project2.getProject()}
+		}
+				);
+	}
 
 }

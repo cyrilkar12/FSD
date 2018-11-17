@@ -36,7 +36,7 @@ import com.project.springcontrollers.UserRestController;
 import junitparams.JUnitParamsRunner;
 
 
-
+@SuppressWarnings("PMD")
 //@UseParametersRunnerFactory(SpringParametersRunnerFactory.class)
 //@RunWith(SpringRunner.class)
 @RunWith(JUnitParamsRunner.class)
@@ -79,8 +79,6 @@ public class UserControllerTest {
     @Test
     @junitparams.Parameters(source= TestDataUser.class, method = "provideUsers")
     public void testlistAllUsers(List<User> expectedLstuser) throws Exception{
-    	System.out.println(expectedLstuser);
-    	
     	BDDMockito.given(userService.viewUsers()).willReturn(lstUsers);
     	
       	MvcResult result = mvc.perform(get("/user/viewUsers")
@@ -90,7 +88,6 @@ public class UserControllerTest {
       	String resultJson = result.getResponse().getContentAsString();
       	ObjectMapper mapper = new ObjectMapper();
       	List<User> lstResultUser = mapper.readValue(resultJson, new TypeReference<List<User>>(){});
-      	System.out.println(resultJson);
       	boolean lstSucccess = true;
       	for(User actualUser: lstResultUser) {
       		if(!expectedLstuser.contains(actualUser)) {
@@ -119,7 +116,6 @@ public class UserControllerTest {
       		     // .andExpect(jsonPath("$[0].title", is("SpringTest")));
       	String resultJson = result.getResponse().getContentAsString();
       	List<User> lstResultUser = mapper.readValue(resultJson, new TypeReference<List<User>>(){});
-      	System.out.println(resultJson);
       	boolean lstSucccess = true;
       	for(User actualUser: lstResultUser) {
       		if(!lstUsers.contains(actualUser)) {
@@ -147,13 +143,12 @@ public class UserControllerTest {
       		     // .andExpect(jsonPath("$[0].title", is("SpringTest")));
       	String resultJson = result.getResponse().getContentAsString();
       	List<User> lstResultUser = mapper.readValue(resultJson, new TypeReference<List<User>>(){});
-      	System.out.println(resultJson);
       	boolean lstSucccess = false;
       	User resultUser=null;
       	for(User actualUser: lstResultUser) {
-      		if(lstUsers.contains(actualUser)) {
+      		if(lstUsers.contains(editUser)) {
       			lstSucccess = true;
-      			resultUser = lstUsers.get(lstUsers.indexOf(actualUser));
+      			resultUser = lstUsers.get(lstUsers.indexOf(editUser));
       			break;
       		}
       	}
@@ -180,10 +175,9 @@ public class UserControllerTest {
       		     // .andExpect(jsonPath("$[0].title", is("SpringTest")));
       	String resultJson = result.getResponse().getContentAsString();
       	List<User> lstResultUser = mapper.readValue(resultJson, new TypeReference<List<User>>(){});
-      	System.out.println(resultJson);
       	boolean lstSucccess = true;
       	for(User actualUser: lstResultUser) {
-      		if(lstUsers.contains(actualUser)) {
+      		if(lstUsers.contains(deleteUser)) {
       			lstSucccess = false;
       			break;
       		}
@@ -195,10 +189,7 @@ public class UserControllerTest {
     @Test
     @junitparams.Parameters(source= TestDataUser.class, method = "provideUsersForSort")
     public void testSortAllUsers(List<User> expectedLstuser,int sortType) throws Exception{
-    	System.out.println(expectedLstuser);
-    	
     	BDDMockito.given(userService.sortUsers(sortType)).willReturn(lstUsers);
-    	
       	MvcResult result = mvc.perform(get("/user/sortUsers/"+sortType)
       		      .contentType(MediaType.APPLICATION_JSON))
       		      .andExpect(status().isOk()).andReturn();
@@ -206,7 +197,6 @@ public class UserControllerTest {
       	String resultJson = result.getResponse().getContentAsString();
       	ObjectMapper mapper = new ObjectMapper();
       	List<User> lstResultUser = mapper.readValue(resultJson, new TypeReference<List<User>>(){});
-      	System.out.println(resultJson);
       	boolean lstSucccess = true;
       	for(User actualUser: lstResultUser) {
       		if(!expectedLstuser.contains(actualUser)) {
@@ -217,5 +207,27 @@ public class UserControllerTest {
 	    assertTrue("User Sorting is not correct", lstSucccess);
     }
 
+    @Test
+    @junitparams.Parameters(source= TestDataUser.class, method = "provideSearchByName")
+    public void testSearchUserByName(List<User> expectedUserLst,String searchUserName) throws Exception{
+    	BDDMockito.given(userService.searchUserByName(searchUserName)).willReturn(expectedUserLst);
+      	MvcResult result = mvc.perform(get("/user/searchUser/?userName="+searchUserName)
+      		      .contentType(MediaType.APPLICATION_JSON))
+      		      .andExpect(status().isOk()).andReturn();
+      		     // .andExpect(jsonPath("$[0].title", is("SpringTest")));
+      	String resultJson = result.getResponse().getContentAsString();
+      	ObjectMapper mapper = new ObjectMapper();
+      	List<User> lstResultUser = mapper.readValue(resultJson, new TypeReference<List<User>>(){});
+      	boolean lstSucccess = true;
+      	for(User actualUser: lstResultUser) {
+      		if(actualUser.getLastName().equals(searchUserName)) {
+      			lstSucccess = true;
+      			break;
+      		}
+      	}
+	    assertTrue("User Search is not correct", lstSucccess);
+
+    }
+    
 
 }

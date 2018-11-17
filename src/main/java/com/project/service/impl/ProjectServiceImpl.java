@@ -35,7 +35,6 @@ public class  ProjectServiceImpl implements ProjectService {
 		Project savedProject = projectDao.save(project);
 		user.setProject(savedProject);
 		//user.setTasks(null);
-		System.out.println(user);
 		userDao.save(user);
 		return viewProjects();
 	}
@@ -56,7 +55,6 @@ public class  ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> editProject(long projectId, Project project) {
-		System.out.println("Edit project>>"+project.getUser());
 		projectDao.save(project);
 		User user = project.getUser();
 		user.setProject(project);
@@ -68,13 +66,8 @@ public class  ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<Project> viewProjects() {
 		List<Project> lstProjects = new ArrayList<>();
-		try {
 		Iterable<Project> lstItr = projectDao.findAll();
 		lstItr.forEach(lstProjects::add);
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
 		return lstProjects;
 	}
 
@@ -100,10 +93,10 @@ public class  ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Project> searchProjectByName(String Project) {
+	public List<Project> searchProjectByName(String project) {
 		Iterable<Project> lstItr = null;
 		List<Project> lsProjects = new ArrayList<>();
-		lstItr = projectDao.findByProjectContainingIgnoreCase(Project);
+		lstItr = projectDao.findByProjectContainingIgnoreCase(project);
 		lstItr.forEach(lsProjects::add);
 		return lsProjects;
 		

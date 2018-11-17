@@ -25,6 +25,7 @@ import com.project.service.UserService;
 
 import junitparams.JUnitParamsRunner;
 
+@SuppressWarnings("PMD")
 @RunWith(JUnitParamsRunner.class)
 //@WebMvcTest(controllers = {UserRestController.class}, secure=false)
 @SpringBootTest(classes = WebApplication.class)
@@ -52,7 +53,7 @@ List<User> lstUsers= new ArrayList<>();
     	user1.setFirstName("cyril");
     	user1.setLastName("kumar");
     	user1.setEmployeeId(357494);
-    	
+    	lstUsers.add(user1);
     	User user2 = new User();
     	user2.setUserId(2);
     	user2.setFirstName("cyril2");
@@ -147,6 +148,19 @@ List<User> lstUsers= new ArrayList<>();
 			lstSucccess = false;
 		}
 		assertTrue("User Sorting failed", lstSucccess);
+	}
+	
+	@Test
+	 @junitparams.Parameters(source= TestDataUser.class, method = "provideSearchByName")
+	    public void testSearchUserByName(List<User> expectedUserLst,String searchUserName) {
+		Mockito.when(userRepository.findByLastNameContainingIgnoreCase(searchUserName))
+	      .thenReturn(expectedUserLst);
+		lstUsers = userService.searchUserByName(searchUserName);
+		boolean lstSucccess = true;
+		if(!lstUsers.containsAll(expectedUserLst)) {
+			lstSucccess = false;
+		}
+		assertTrue("User Search failed", lstSucccess);
 	}
 	
 

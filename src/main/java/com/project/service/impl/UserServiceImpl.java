@@ -18,7 +18,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> addUser(User user) {
-		System.out.println(">>>>service"+user);
 		userDao.save(user);
 		return viewUsers();
 	}

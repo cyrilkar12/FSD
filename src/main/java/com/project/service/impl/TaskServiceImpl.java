@@ -1,9 +1,7 @@
 package com.project.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,16 +37,12 @@ public class  TaskServiceImpl implements TaskService {
 		task.setParentTask(parentTask);*/
 		User user = task.getUser();
 		task.setUser(null);
-		System.out.println("parent task>>>>>>>>>>>>>>>"+ task.getParentTask());
-		if(task.getParentTask().getParentTaskName()==null) {
+		if(task.getParentTask()==null || task.getParentTask().getParentTaskName()==null) {
 			task.setParentTask(null);
 		}
 		Task savedTask =taskDao.save(task);
 		user.setTask(savedTask);
-		System.out.println("user>>"+user);
-		System.out.println("task>>"+task);
 		userDao.save(user);
-		//task.getUser();
 		return viewTasks();
 	}
 

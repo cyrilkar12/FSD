@@ -1,13 +1,10 @@
 package com.project.springcontrollers;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 //import com.exception.ResourceNotFoundException;
 import com.project.entity.Project;
@@ -56,13 +51,7 @@ public class ProjectRestController {
 	 @ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public List<Project> viewProjects() {
-		try {
-			System.out.println( "InView projects123213>>>"+ projectService.viewProjects());
 		return projectService.viewProjects();
-		}catch(Exception e) {
-			e.getMessage();
-		}
-		return null;
 	}
 	
 	@RequestMapping(value = "/sortProjects/{sorttype}",

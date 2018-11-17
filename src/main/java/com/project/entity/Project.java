@@ -10,131 +10,178 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.action.internal.OrphanRemovalAction;
 import org.hibernate.annotations.Formula;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-/*@SqlResultSetMapping(
-	    name = "findAllDataMapping",
-	    classes = @ConstructorResult(
-	            targetClass = Project.class,
-	            columns = {
-	                    @ColumnResult(name = "userFirstName"),
-	                    @ColumnResult(name = "userLastName"),
-	                    @ColumnResult(name = "id"),
-	                    @ColumnResult(name = "packageName")
-	            }
-	    )
-	)
-@NamedNativeQuery(name = "findAllDataMapping", resultClass = Project.class, resultSetMapping ="findAllDataMapping", query = "select p.project_id,p.Project,p.start_date,p.end_date,p.priority,count(distinct t.task_id) as numberOfTasks, \\n\" + \n" + 
-		"			\"(select count(distinct t.task_id) from test.task where project_id=p.project_id and status='Completed') as completedTasks \\n\" + \n" + 
-		"			\" from test.project p inner join test.task t \\n\" + \n" + 
-		"			\"on p.project_id=t.project_id group by p.project_id,p.Project,p.start_date,p.end_date,p.priority")
-*/
+/**
+ * 
+ * @author 357494
+ *
+ */
 @Entity
 @Table(name="Project")
 public class Project {
+	/**
+	 * Project Field
+	 */
 	@Id
     @Column(name = "Project_Id")
 	@GeneratedValue(strategy = GenerationType.AUTO) 
-	long projectId;
-	 @Column(name = "Project")
-	String project;
-	 @Column(name = "Start_Date")
-	Date startDate;
-	 @Column(name = "End_Date")
-	Date endDate;
-	 @Column(name = "Priority")
-	int priority;
+	private long projectId;
+	/**
+	 * Project Field
+	 */
+	@Column(name = "Project")
+	 private String project;
+	/**
+	 * Project Field
+	 */
+	@Column(name = "Start_Date")
+	 private Date startDate;
+	/**
+	 * Project Field
+	 */
+	@Column(name = "End_Date")
+	 private Date endDate;
+	/**
+	 * Project Field
+	 */
+	@Column(name = "Priority")
+	 private int priority;
 /*	@Column(name = "Status")
 	String status;*/
+	/**
+	 * Project Field
+	 */
 	@OneToMany(cascade= {CascadeType.ALL} ,fetch = FetchType.EAGER, mappedBy="project")
 //	 @OneToMany(cascade= {CascadeType.REMOVE})
      @JsonIgnore
 	private Set<Task> taskSet;
-    /*@JsonProperty
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@Transient*/
+	/**
+	 * Project Field
+	 */
 	@Formula("(select count(distinct t.task_id) from test.task t where t.project_id=project_id)")
-    int numberOfTasks;
-/*	@JsonProperty 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@Transient*/
+	private int numberOfTasks;
+	/**
+	 * Project Field
+	 */
 	@Formula("(select count(distinct t.task_id) from test.task t where t.project_id=project_id and t.status='Completed')")
-    int completedTasks;
+	private int completedTasks;
 	@OneToOne(cascade= {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH} ,fetch = FetchType.EAGER, mappedBy = "project")
-	//@JoinColumn(name="Project_Id",nullable=true,insertable=false,updatable=true)
-	//@OneToOne(cascade= {CascadeType.ALL},fetch = FetchType.EAGER)
-//	@JsonManagedReference
     User user;
 	
-/*	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-*/	public long getProjectId() {
+	/**
+	 * @return the projectId
+	 */
+	public long getProjectId() {
 		return projectId;
 	}
-	public void setProjectId(long projectId) {
+	/**
+	 * @param projectId the projectId to set
+	 */
+	public void setProjectId(final long projectId) {
 		this.projectId = projectId;
 	}
+	/**
+	 * @return the project
+	 */
 	public String getProject() {
 		return project;
 	}
-	public void setProject(String project) {
+	/**
+	 * @param project the project to set
+	 */
+	public void setProject(final String project) {
 		this.project = project;
 	}
+	/**
+	 * @return the startDate
+	 */
 	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	/**
+	 * @param startDate the startDate to set
+	 */
+	public void setStartDate(final Date startDate) {
 		this.startDate = startDate;
 	}
+	/**
+	 * @return the endDate
+	 */
 	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	/**
+	 * @param endDate the endDate to set
+	 */
+	public void setEndDate(final Date endDate) {
 		this.endDate = endDate;
 	}
+	/**
+	 * @return the priority
+	 */
 	public int getPriority() {
 		return priority;
 	}
-	public void setPriority(int priority) {
+	/**
+	 * @param priority the priority to set
+	 */
+	public void setPriority(final int priority) {
 		this.priority = priority;
 	}
-	public int getNumberOfTasks() {
-		return numberOfTasks;
-	}
-	public void setNumberOfTasks(int numberOfTasks) {
-		this.numberOfTasks = numberOfTasks;
-	}
-	public int getCompletedTasks() {
-		return completedTasks;
-	}
-	public void setCompletedTasks(int completedTasks) {
-		this.completedTasks = completedTasks;
-	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
+	/**
+	 * @return the taskSet
+	 */
 	public Set<Task> getTaskSet() {
 		return taskSet;
 	}
-	public void setTaskSet(Set<Task> taskSet) {
+	/**
+	 * @param taskSet the taskSet to set
+	 */
+	public void setTaskSet(final Set<Task> taskSet) {
 		this.taskSet = taskSet;
+	}
+	/**
+	 * @return the numberOfTasks
+	 */
+	public int getNumberOfTasks() {
+		return numberOfTasks;
+	}
+	/**
+	 * @param numberOfTasks the numberOfTasks to set
+	 */
+	public void setNumberOfTasks(final int numberOfTasks) {
+		this.numberOfTasks = numberOfTasks;
+	}
+	/**
+	 * @return the completedTasks
+	 */
+	public int getCompletedTasks() {
+		return completedTasks;
+	}
+	/**
+	 * @param completedTasks the completedTasks to set
+	 */
+	public void setCompletedTasks(final int completedTasks) {
+		this.completedTasks = completedTasks;
+	}
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(final User user) {
+		this.user = user;
 	}
 	@Override
 	public String toString() {
@@ -144,22 +191,26 @@ public class Project {
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (projectId ^ (projectId >>> 32));
 		return result;
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Project other = (Project) obj;
-		if (projectId != other.projectId)
+		if (projectId != other.projectId) {
 			return false;
+		}
 		return true;
 	}
 }

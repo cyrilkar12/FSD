@@ -40,6 +40,7 @@ import junitparams.JUnitParamsRunner;
 
 //@UseParametersRunnerFactory(SpringParametersRunnerFactory.class)
 //@RunWith(SpringRunner.class)
+@SuppressWarnings("PMD")
 @RunWith(JUnitParamsRunner.class)
 @WebMvcTest(controllers = {ProjectRestController.class}, secure=false)
 @ContextConfiguration(classes = WebApplication.class)
@@ -84,7 +85,6 @@ public class ProjectControllerTest {
 	@Test
 	@junitparams.Parameters(source= TestDataProject.class, method = "provideProjects")
 	public void testlistAllProjects(List<Project> expectedLstproject) throws Exception{
-		System.out.println(expectedLstproject);
 
 		BDDMockito.given(projectService.viewProjects()).willReturn(lstProjects);
 
@@ -95,7 +95,6 @@ public class ProjectControllerTest {
 		String resultJson = result.getResponse().getContentAsString();
 		ObjectMapper mapper = new ObjectMapper();
 		List<Project> lstResultProject = mapper.readValue(resultJson, new TypeReference<List<Project>>(){});
-		System.out.println(resultJson);
 		boolean lstSucccess = true;
 		for(Project actualProject: lstResultProject) {
 			if(!expectedLstproject.contains(actualProject)) {
@@ -124,7 +123,6 @@ public class ProjectControllerTest {
 		// .andExpect(jsonPath("$[0].title", is("SpringTest")));
 		String resultJson = result.getResponse().getContentAsString();
 		List<Project> lstResultProject = mapper.readValue(resultJson, new TypeReference<List<Project>>(){});
-		System.out.println(resultJson);
 		boolean lstSucccess = true;
 		for(Project actualProject: lstResultProject) {
 			if(!lstProjects.contains(actualProject)) {
@@ -152,13 +150,12 @@ public class ProjectControllerTest {
 		// .andExpect(jsonPath("$[0].title", is("SpringTest")));
 		String resultJson = result.getResponse().getContentAsString();
 		List<Project> lstResultProject = mapper.readValue(resultJson, new TypeReference<List<Project>>(){});
-		System.out.println(resultJson);
 		boolean lstSucccess = false;
 		Project resultProject=null;
 		for(Project actualProject: lstResultProject) {
-			if(lstProjects.contains(actualProject)) {
+			if(lstProjects.contains(editProject)) {
 				lstSucccess = true;
-				resultProject = lstProjects.get(lstProjects.indexOf(actualProject));
+				resultProject = lstProjects.get(lstProjects.indexOf(editProject));
 				break;
 			}
 		}
@@ -187,7 +184,6 @@ public class ProjectControllerTest {
 		// .andExpect(jsonPath("$[0].title", is("SpringTest")));
 		String resultJson = result.getResponse().getContentAsString();
 		List<Project> lstResultProject = mapper.readValue(resultJson, new TypeReference<List<Project>>(){});
-		System.out.println(resultJson);
 		boolean lstSucccess = true;
 		if(lstResultProject.contains(deleteProject)) {
 			lstSucccess = false;
@@ -199,8 +195,6 @@ public class ProjectControllerTest {
 	@Test
 	@junitparams.Parameters(source= TestDataProject.class, method = "provideProjectsForSort")
 	public void testSortAllProjects(List<Project> expectedLstproject,int sortType) throws Exception{
-		System.out.println(expectedLstproject);
-
 		BDDMockito.given(projectService.sortProjects(sortType)).willReturn(lstProjects);
 
 		MvcResult result = mvc.perform(get("/project/sortProjects/"+sortType)
@@ -210,13 +204,32 @@ public class ProjectControllerTest {
 		String resultJson = result.getResponse().getContentAsString();
 		ObjectMapper mapper = new ObjectMapper();
 		List<Project> lstResultProject = mapper.readValue(resultJson, new TypeReference<List<Project>>(){});
-		System.out.println(resultJson);
 		boolean lstSucccess = true;
 		for(Project actualProject: lstResultProject) {
 			if(!expectedLstproject.contains(actualProject)) {
 				lstSucccess = false;
 				break;
 			}
+		}
+		assertTrue("Project Sorting is not correct", lstSucccess);
+	}
+
+
+	@Test
+	@junitparams.Parameters(source= TestDataProject.class, method = "provideProjectsForSearch")
+	public void testSearchByName(List<Project> expectedLstproject,String projectName) throws Exception{
+		BDDMockito.given(projectService.searchProjectByName(projectName)).willReturn(expectedLstproject);
+
+		MvcResult result = mvc.perform(get("/project/searchProject?projectName="+projectName)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andReturn();
+		// .andExpect(jsonPath("$[0].title", is("SpringTest")));
+		String resultJson = result.getResponse().getContentAsString();
+		ObjectMapper mapper = new ObjectMapper();
+		List<Project> lstResultProject = mapper.readValue(resultJson, new TypeReference<List<Project>>(){});
+		boolean lstSucccess = true;
+		if(!expectedLstproject.containsAll(lstResultProject)) {
+			lstSucccess = false;
 		}
 		assertTrue("Project Sorting is not correct", lstSucccess);
 	}

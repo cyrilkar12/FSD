@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.project.entity.User;
 
+@SuppressWarnings("PMD")
 public class TestDataUser {
 	
 	public static Object[] provideUsers() {
@@ -97,6 +98,29 @@ public class TestDataUser {
 		userList.add(user2);
 		return (new Object[][]{
 				{userList,1},{userList,2},{userList,3}
+		}
+				);
+	}
+
+	public static Object[] provideSearchByName() {
+		User user1 = new User();
+		user1.setUserId(1);
+		user1.setFirstName("cyril");
+		user1.setLastName("kumar");
+		user1.setEmployeeId(357494);
+		List<User> user1List = new ArrayList<>();
+		user1List.add(user1);
+		
+		User user2 = new User();
+		user2.setUserId(2);
+		user2.setFirstName("cyril2");
+		user2.setLastName("kumar2");
+		user2.setEmployeeId(3574942);
+		List<User> user2List = new ArrayList<>();
+		user2List.add(user2);
+
+		return (new Object[][]{
+				{user1List,"kumar"},{user2List,"kumar2"}
 		}
 				);
 	}
