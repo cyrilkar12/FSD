@@ -45,10 +45,20 @@ public class  ProjectServiceImpl implements ProjectService {
 		User user = project.getUser();
 		if(user!=null) {
 		user.setProject(null);
+		user.setTask(null);
 		userDao.save(user);
 		}
 		Set<Task> taskSet = project.getTaskSet();
-		taskDao.delete(taskSet);
+		for(Task task:taskSet) {
+			task.setProject(null);
+			task.setUser(null);
+			taskDao.save(task);
+			taskDao.delete(task.getTaskId());
+		}
+		project.getTaskSet().clear();
+		project.setTaskSet(null);
+		project.setUser(null);
+		projectDao.save(project);
 		projectDao.delete(projectId);
 		return viewProjects();
 	}

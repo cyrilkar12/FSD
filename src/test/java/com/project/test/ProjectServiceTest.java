@@ -189,6 +189,7 @@ List<Project> lstProjects= new ArrayList<>();
 		assertTrue("Project Sorting failed", lstSucccess);
 	}
 	
+	@Test
 	@junitparams.Parameters(source= TestDataProject.class, method = "provideProjectsForSearch")
 	public void testSearchByName(List<Project> expectedLstproject,String projectName) throws Exception{
 		BDDMockito.given(projectRepository.findByProjectContainingIgnoreCase(projectName)).willReturn(expectedLstproject);
